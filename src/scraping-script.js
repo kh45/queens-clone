@@ -31,45 +31,25 @@ import * as cheerio from 'cheerio'
 
     const $ = cheerio.load(data)
 
-    const $cells = $('[data-cell-idx]')
+    const extractBoardDimensions = $.extract({
+      dimensions: {
+        selector: 'div#queens-grid',
+        value: 'style'
+      }
+    })
 
-    console.log('SHOW ME THE $CELLS:', $cells)
+    // const $cells = $('[data-cell-idx]')
+    const $cellsExtracted = $.extract({
+      squares: [{
+        selector: '[data-cell-idx]',
+        value: 'aria-label'}]
+    })
+
+    console.log('SHOW ME THE $CELLS:', $cellsExtracted)
+    console.log('here are the dimensions:', extractBoardDimensions)
 
     await browser.close();
   } catch (err) {
     console.error(err);
   }
 })();
-
-
-
-// Launch the browser and open a new blank page
-const browser = await puppeteer.launch();
-const page = await browser.newPage();
-
-// Navigate the page to a URL.
-// await page.goto('https://www.imdb.com/chart/top');
-
-// console.log(page.content())
-
-// // // Set screen size.
-// // await page.setViewport({width: 1080, height: 1024});
-
-
-
-// // // Type into search box.
-// // await page.locator('.devsite-search-field').fill('automate beyond recorder');
-
-// // // Wait and click on first result.
-// // await page.locator('.devsite-result-item-link').click();
-
-// // // Locate the full title with a unique string.
-// // const textSelector = await page
-// //   .locator('text/Customize and automate')
-// //   .waitHandle();
-// // const fullTitle = await textSelector?.evaluate(el => el.textContent);
-
-// // // Print the full title.
-// // console.log('The title of this blog post is "%s".', fullTitle);
-
-// await browser.close();
