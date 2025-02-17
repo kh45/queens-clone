@@ -48,6 +48,8 @@ import * as cheerio from 'cheerio'
     console.log('SHOW ME THE $CELLS:', $cellsExtracted)
     console.log('here are the dimensions:', extractBoardDimensions)
 
+    // console.log($cellsExtracted.squares.slice(80, 200))
+
     await browser.close();
   } catch (err) {
     console.error(err);

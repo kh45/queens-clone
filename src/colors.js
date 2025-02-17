@@ -1,15 +1,15 @@
  const COLORS = {
-    color1: '#bba3e2',
-    color2PeachOrange: '#ffc992',
-    color3: '#96beff',
-    color4PastelGreen: '#b3dfa0',
-    color5: '#dfdfdf',
-    color6VibrantCoral: '#ff7b60',
-    color7: '#e6f388',
-    color8: '#b9b29e',
-    color9: '#dfa0bf',
-    color10: '#a3d2d8',
-    color11: '#62efea',
+    'Lavender': '#bba3e2', // done
+    'Peach Orange': '#ffc992', // done
+    'Soft Blue': '#96beff', // done
+    'Pastel Green': '#b3dfa0', // done
+    'Light Gray': '#dfdfdf', // done
+    'Vibrant Coral': '#ff7b60', // done
+    'Lime Yellow': '#e6f388', // done
+    'Warm Beige': '#b9b29e', // done
+    'Rose Pink': '#dfa0bf', // done
+    'Muted Teal': '#a3d2d8', // done
+    'Bright Cyan': '#62efea', // done
     color12: '#ff93f3',
     color13: '#8acc6d',
     color14: '#729aec',
