@@ -16,7 +16,7 @@ const Square = ({
   setColumnsWithCrown,
   columnsWithCrown,
   colorsWithCrown,
-  setColorsWithCrown
+  setColorsWithCrown,
 }) => {
   const [displayStateOfSquare, setDisplayStateOfSquare] = useState({
     isXShowing: false,
@@ -24,22 +24,21 @@ const Square = ({
   });
 
   const calculateDiagonals = (row, column) => {
-    const rowAbove = parseInt(row) - 1
-    const rowBelow = parseInt(row) + 1
+    const rowAbove = parseInt(row) - 1;
+    const rowBelow = parseInt(row) + 1;
 
-    const columnToTheLeft = parseInt(column) - 1
-    const columnToTheRight = parseInt(column) + 1
+    const columnToTheLeft = parseInt(column) - 1;
+    const columnToTheRight = parseInt(column) + 1;
 
-    const NWDiagonal = {row: rowAbove, column: columnToTheLeft}
-    const NEDiagonal = {row: rowAbove, column: columnToTheRight}
-    const SEDiagonal = {row: rowBelow, column: columnToTheRight}
-    const SWDiagonal = {row: rowBelow, column: columnToTheLeft}
+    const NWDiagonal = { row: rowAbove, column: columnToTheLeft };
+    const NEDiagonal = { row: rowAbove, column: columnToTheRight };
+    const SEDiagonal = { row: rowBelow, column: columnToTheRight };
+    const SWDiagonal = { row: rowBelow, column: columnToTheLeft };
 
-    const diagonalsArray = [NWDiagonal, NEDiagonal, SWDiagonal, SEDiagonal]
+    const diagonalsArray = [NWDiagonal, NEDiagonal, SWDiagonal, SEDiagonal];
 
-    return diagonalsArray
-
-  }
+    return diagonalsArray;
+  };
 
   const handleClick = () => {
     // There is nothing in square so set an X
@@ -53,7 +52,7 @@ const Square = ({
       });
     }
 
-    console.log('SHOW ME THE DIAGONALS:', calculateDiagonals(row, column))
+    console.log("SHOW ME THE DIAGONALS:", calculateDiagonals(row, column));
 
     // There is already an X so set a Crown
     if (
@@ -65,23 +64,36 @@ const Square = ({
         isCrownShowing: true,
       });
       if (rowsWithCrown.includes(row)) {
-          window.alert('ROW ERROR!')
-          location.reload()
-          return
+        window.alert("ROW ERROR!");
+        location.reload();
+        return;
       }
       if (columnsWithCrown.includes(column)) {
-        window.alert('COLUMN ERROR!')
-        location.reload()
-        return
-    }
-    if (colorsWithCrown.includes(color)) {
-      window.alert('COLOR ERROR!')
-      location.reload()
-      return
-  }
-    setRowsWithCrown([...rowsWithCrown, row])
-    setColumnsWithCrown([...columnsWithCrown, column])
-    setColorsWithCrown([...colorsWithCrown, color])
+        window.alert("COLUMN ERROR!");
+        location.reload();
+        return;
+      }
+      if (colorsWithCrown.includes(color)) {
+        window.alert("COLOR ERROR!");
+        location.reload();
+        return;
+      }
+      // Check for diagonal errors
+      calculateDiagonals(row, column).forEach((square) => {
+        console.log('SHOW ME WHAT YOUR CALCULATING HERE:', square)
+        if (
+          rowsWithCrown.includes(square.row) &&
+          columnsWithCrown.includes(square.column)
+        ) {
+          console.log('AM I JUMPING HERE?????')
+          window.alert("DIAGONAL ERROR!");
+          location.reload();
+          return
+        }
+      });
+      setRowsWithCrown([...rowsWithCrown, row]);
+      setColumnsWithCrown([...columnsWithCrown, column]);
+      setColorsWithCrown([...colorsWithCrown, color]);
     }
 
     // There is already a Crown, so turn it off
@@ -93,13 +105,19 @@ const Square = ({
         isXShowing: false,
         isCrownShowing: false,
       });
-      const removingCrownFromRow = rowsWithCrown.filter((arrayRow) => arrayRow !== row )
-      const removingCrownFromColumn = columnsWithCrown.filter((arrayColumn) => arrayColumn !== column)
-      const removingCrownFromColors = colorsWithCrown.filter((arrayColor) => arrayColor !== color)
+      const removingCrownFromRow = rowsWithCrown.filter(
+        (arrayRow) => arrayRow !== row
+      );
+      const removingCrownFromColumn = columnsWithCrown.filter(
+        (arrayColumn) => arrayColumn !== column
+      );
+      const removingCrownFromColors = colorsWithCrown.filter(
+        (arrayColor) => arrayColor !== color
+      );
 
-      setRowsWithCrown([removingCrownFromRow])
-      setColumnsWithCrown([removingCrownFromColumn])
-      setColorsWithCrown([removingCrownFromColors])
+      setRowsWithCrown([removingCrownFromRow]);
+      setColumnsWithCrown([removingCrownFromColumn]);
+      setColorsWithCrown([removingCrownFromColors]);
     }
   };
 
@@ -176,7 +194,7 @@ function App() {
   const [width, setWidth] = useState(0);
   const [rowsWithCrown, setRowsWithCrown] = useState([]);
   const [columnsWithCrown, setColumnsWithCrown] = useState([]);
-  const [colorsWithCrown, setColorsWithCrown] = useState([])
+  const [colorsWithCrown, setColorsWithCrown] = useState([]);
   const [boardStats, setBoardStats] = useState({});
 
   useEffect(() => {
