@@ -23,7 +23,26 @@ const Square = ({
     isCrownShowing: false,
   });
 
+  const calculateDiagonals = (row, column) => {
+    const rowAbove = parseInt(row) - 1
+    const rowBelow = parseInt(row) + 1
+
+    const columnToTheLeft = parseInt(column) - 1
+    const columnToTheRight = parseInt(column) + 1
+
+    const NWDiagonal = {row: rowAbove, column: columnToTheLeft}
+    const NEDiagonal = {row: rowAbove, column: columnToTheRight}
+    const SEDiagonal = {row: rowBelow, column: columnToTheRight}
+    const SWDiagonal = {row: rowBelow, column: columnToTheLeft}
+
+    const diagonalsArray = [NWDiagonal, NEDiagonal, SWDiagonal, SEDiagonal]
+
+    return diagonalsArray
+
+  }
+
   const handleClick = () => {
+    // There is nothing in square so set an X
     if (
       !displayStateOfSquare.isXShowing &&
       !displayStateOfSquare.isCrownShowing
@@ -34,6 +53,9 @@ const Square = ({
       });
     }
 
+    console.log('SHOW ME THE DIAGONALS:', calculateDiagonals(row, column))
+
+    // There is already an X so set a Crown
     if (
       displayStateOfSquare.isXShowing &&
       !displayStateOfSquare.isCrownShowing
@@ -62,6 +84,7 @@ const Square = ({
     setColorsWithCrown([...colorsWithCrown, color])
     }
 
+    // There is already a Crown, so turn it off
     if (
       !displayStateOfSquare.isXShowing &&
       displayStateOfSquare.isCrownShowing
@@ -70,6 +93,13 @@ const Square = ({
         isXShowing: false,
         isCrownShowing: false,
       });
+      const removingCrownFromRow = rowsWithCrown.filter((arrayRow) => arrayRow !== row )
+      const removingCrownFromColumn = columnsWithCrown.filter((arrayColumn) => arrayColumn !== column)
+      const removingCrownFromColors = colorsWithCrown.filter((arrayColor) => arrayColor !== color)
+
+      setRowsWithCrown([removingCrownFromRow])
+      setColumnsWithCrown([removingCrownFromColumn])
+      setColorsWithCrown([removingCrownFromColors])
     }
   };
 
