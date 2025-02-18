@@ -17,6 +17,8 @@ const Square = ({
   columnsWithCrown,
   colorsWithCrown,
   setColorsWithCrown,
+  arrayOfCoordinates,
+  setArrayOfCoordinates
 }) => {
   const [displayStateOfSquare, setDisplayStateOfSquare] = useState({
     isXShowing: false,
@@ -52,7 +54,7 @@ const Square = ({
       });
     }
 
-    console.log("SHOW ME THE DIAGONALS:", calculateDiagonals(row, column));
+    // console.log("SHOW ME THE DIAGONALS:", calculateDiagonals(row, column));
 
     // There is already an X so set a Crown
     if (
@@ -80,22 +82,21 @@ const Square = ({
       }
       // Check for diagonal errors
       calculateDiagonals(row, column).forEach((square) => {
-        // console.log('SHOW ME WHAT YOUR CALCULATING HERE:', square)
-        console.log({rowsWithCrown, columnsWithCrown, row, column, square})
+
+        console.log('SHOW ME WHAT YOUR CALCULATING HERE:', square)
+        // console.log({rowsWithCrown, columnsWithCrown, row, column, square})
         // console.log(`This is the diagonal: ${square.row}` + ` and this is row condition: ${rowsWithCrown.includes(square.row)} `)
-        if (
-          rowsWithCrown.includes(square.row.toString()) &&
-          columnsWithCrown.includes(square.column.toString())
-        ) {
-          console.log('AM I JUMPING HERE?????')
+        if (arrayOfCoordinates.some((coor) => coor.row === square.row && coor.column === square.column)) {
+          // console.log('AM I JUMPING HERE?????')
           window.alert("DIAGONAL ERROR!");
           location.reload();
-          return
+          return;
         }
       });
       setRowsWithCrown([...rowsWithCrown, row]);
       setColumnsWithCrown([...columnsWithCrown, column]);
       setColorsWithCrown([...colorsWithCrown, color]);
+      setArrayOfCoordinates([...arrayOfCoordinates, {row: parseInt(row), column: parseInt(column)}])
     }
 
     // There is already a Crown, so turn it off
@@ -149,7 +150,9 @@ const generateGrid = (
   setRowsWithCrown,
   setColumnsWithCrown,
   colorsWithCrown,
-  setColorsWithCrown
+  setColorsWithCrown,
+  arrayOfCoordinates,
+  setArrayOfCoordinates
 ) => {
   return array.map((square, idx) => {
     const color = square.split("color ")[1].split(",")[0];
@@ -167,6 +170,8 @@ const generateGrid = (
         setColumnsWithCrown={setColumnsWithCrown}
         colorsWithCrown={colorsWithCrown}
         setColorsWithCrown={setColorsWithCrown}
+        arrayOfCoordinates={arrayOfCoordinates}
+        setArrayOfCoordinates={setArrayOfCoordinates}
         key={idx}
         row={row}
         column={column}
@@ -178,8 +183,8 @@ const generateGrid = (
 const getBoardConfig = (array) => {
   const colorArray = [];
   const lastString = array[array.length - 1].split(", ");
-  const row = lastString[1].split(" ")[1];
-  const column = lastString[2].split(" ")[1];
+  const rows = lastString[1].split(" ")[1];
+  const columns = lastString[2].split(" ")[1];
 
   array.map((square) => {
     const color = square.split("color")[1].split(",")[0];
@@ -188,21 +193,44 @@ const getBoardConfig = (array) => {
     }
   });
 
-  return { colorArray, row, column };
+  return { colorArray, rows, columns };
 };
 
 function App() {
   const [count, setCount] = useState(0);
   const [width, setWidth] = useState(0);
+  const [boardConfig, setBoardConfig] = useState({
+    rows: 0,
+    columns: 0,
+    colorArray: [],
+  });
+  const [numberOfColumns, setNumberOfColumns] = useState(0);
   const [rowsWithCrown, setRowsWithCrown] = useState([]);
   const [columnsWithCrown, setColumnsWithCrown] = useState([]);
   const [colorsWithCrown, setColorsWithCrown] = useState([]);
   const [boardStats, setBoardStats] = useState({});
+  const [arrayOfCoordinates, setArrayOfCoordinates] = useState([])
+
+  // determines if solution has been reached
+  useEffect(() => {
+    if (
+      rowsWithCrown.length === parseInt(boardConfig.rows) &&
+      columnsWithCrown.length === parseInt(boardConfig.columns) &&
+      colorsWithCrown.length === boardConfig.colorArray.length &&
+      boardConfig.rows !== 0
+    ) {
+      window.alert("YOU WIN!!!!");
+    }
+  }, [rowsWithCrown]);
 
   useEffect(() => {
-    const boardConfig = getBoardConfig(hello);
+    const boardConfig = getBoardConfig(secondNewOne);
+    setBoardConfig(boardConfig);
     // console.log('SHOW ME THE BOARD CONFIG:', boardConfig)
   }, []);
+
+  console.log("SHOW ME THE BOARD CONFIG:", boardConfig);
+  // console.log('SHOW ME THE ARRAY OF COOR:', arrayOfCoordinates)
 
   // console.log('show me all the colors:', getBoardConfig(hello))
 
@@ -215,21 +243,23 @@ function App() {
         style={{
           display: "grid",
           width: width,
-          gridTemplateColumns: "repeat(11, 1fr)",
-          gridTemplateRows: "repeat(11, 1fr)",
+          gridTemplateColumns: "repeat(7, 1fr)",
+          gridTemplateRows: "repeat(7, 1fr)",
           // columnGap: '0px',
           // gap: 0
           // rowGap: '0px'
         }}
       >
         {generateGrid(
-          hello,
+          secondNewOne,
           rowsWithCrown,
           columnsWithCrown,
           setRowsWithCrown,
           setColumnsWithCrown,
           colorsWithCrown,
-          setColorsWithCrown
+          setColorsWithCrown,
+          arrayOfCoordinates,
+          setArrayOfCoordinates
         )}
       </div>
       <div>
