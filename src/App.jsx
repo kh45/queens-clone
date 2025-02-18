@@ -3,7 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import COLORS from "./colors";
-import hello, { dimensions, secondDimensions, secondNewOne } from "./mock";
+import hello, { secondNewOne } from "./mock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faX } from "@fortawesome/free-solid-svg-icons";
 
@@ -18,7 +18,7 @@ const Square = ({
   colorsWithCrown,
   setColorsWithCrown,
   arrayOfCoordinates,
-  setArrayOfCoordinates
+  setArrayOfCoordinates,
 }) => {
   const [displayStateOfSquare, setDisplayStateOfSquare] = useState({
     isXShowing: false,
@@ -54,8 +54,6 @@ const Square = ({
       });
     }
 
-    // console.log("SHOW ME THE DIAGONALS:", calculateDiagonals(row, column));
-
     // There is already an X so set a Crown
     if (
       displayStateOfSquare.isXShowing &&
@@ -82,12 +80,11 @@ const Square = ({
       }
       // Check for diagonal errors
       calculateDiagonals(row, column).forEach((square) => {
-
-        console.log('SHOW ME WHAT YOUR CALCULATING HERE:', square)
-        // console.log({rowsWithCrown, columnsWithCrown, row, column, square})
-        // console.log(`This is the diagonal: ${square.row}` + ` and this is row condition: ${rowsWithCrown.includes(square.row)} `)
-        if (arrayOfCoordinates.some((coor) => coor.row === square.row && coor.column === square.column)) {
-          // console.log('AM I JUMPING HERE?????')
+        if (
+          arrayOfCoordinates.some(
+            (coor) => coor.row === square.row && coor.column === square.column
+          )
+        ) {
           window.alert("DIAGONAL ERROR!");
           location.reload();
           return;
@@ -96,7 +93,7 @@ const Square = ({
       setRowsWithCrown([...rowsWithCrown, row]);
       setColumnsWithCrown([...columnsWithCrown, column]);
       setColorsWithCrown([...colorsWithCrown, color]);
-      setArrayOfCoordinates([...arrayOfCoordinates, {row, column}])
+      setArrayOfCoordinates([...arrayOfCoordinates, { row, column }]);
     }
 
     // There is already a Crown, so turn it off
@@ -124,7 +121,6 @@ const Square = ({
     }
   };
 
-  // console.log("THIS IS THE COLOR IM PASSING IN:", color);
   return (
     <div
       onClick={handleClick}
@@ -138,7 +134,7 @@ const Square = ({
       {displayStateOfSquare.isXShowing && <FontAwesomeIcon icon={faX} />}
       {displayStateOfSquare.isCrownShowing && (
         <FontAwesomeIcon icon={faCrown} />
-      )}{" "}
+      )}
     </div>
   );
 };
@@ -158,9 +154,6 @@ const generateGrid = (
     const color = square.split("color ")[1].split(",")[0];
     const row = parseInt(square.split(", ")[1].split(" ")[1]);
     const column = parseInt(square.split(", ")[2].split(" ")[1]);
-    // console.log('SHOW ME THE SQUARE:', square.split(", ")[1].split(" ")[1])
-    // console.log('SHOW ME THE COLOR STRING:', color)
-    // console.log('FDFAS', COLORS[color])
     return (
       <Square
         color={color}
@@ -198,18 +191,15 @@ const getBoardConfig = (array) => {
 
 function App() {
   const [count, setCount] = useState(0);
-  const [width, setWidth] = useState(0);
   const [boardConfig, setBoardConfig] = useState({
     rows: 0,
     columns: 0,
     colorArray: [],
   });
-  const [numberOfColumns, setNumberOfColumns] = useState(0);
   const [rowsWithCrown, setRowsWithCrown] = useState([]);
   const [columnsWithCrown, setColumnsWithCrown] = useState([]);
   const [colorsWithCrown, setColorsWithCrown] = useState([]);
-  const [boardStats, setBoardStats] = useState({});
-  const [arrayOfCoordinates, setArrayOfCoordinates] = useState([])
+  const [arrayOfCoordinates, setArrayOfCoordinates] = useState([]);
 
   // determines if solution has been reached
   useEffect(() => {
@@ -224,33 +214,23 @@ function App() {
   }, [rowsWithCrown]);
 
   useEffect(() => {
+    // const boardConfig = getBoardConfig(hello);
     const boardConfig = getBoardConfig(secondNewOne);
     setBoardConfig(boardConfig);
-    // console.log('SHOW ME THE BOARD CONFIG:', boardConfig)
   }, []);
-
-  console.log("SHOW ME THE BOARD CONFIG:", boardConfig);
-  // console.log('SHOW ME THE ARRAY OF COOR:', arrayOfCoordinates)
-
-  // console.log('show me all the colors:', getBoardConfig(hello))
-
-  // const width = 35 * 7
 
   return (
     <>
-      {/* <button style={{border: '2px solid red'}} onClick={async () => console.log(await getHTML())}>Steal Board!</button> */}
       <div
         style={{
           display: "grid",
-          width: width,
-          gridTemplateColumns: "repeat(7, 1fr)",
-          gridTemplateRows: "repeat(7, 1fr)",
-          // columnGap: '0px',
-          // gap: 0
-          // rowGap: '0px'
+          width: 0, // width of 0 makes it so you don't need to calculate width by squares
+          gridTemplateColumns: `repeat(${boardConfig.columns}, 1fr)`,
+          gridTemplateRows: `repeat${boardConfig.rows}, 1f)r`,
         }}
       >
         {generateGrid(
+          // hello,
           secondNewOne,
           rowsWithCrown,
           columnsWithCrown,

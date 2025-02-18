@@ -122,16 +122,6 @@ export const hello = [
     'Empty cell of color Bright Cyan, row 11, column 11'
 ]
 
-export const dimensions = {
-    rows: 11,
-    columns: 11
-}
-
-export const secondDimensions = {
-    rows: 7,
-    columns: 7
-}
-
 export const secondNewOne = [
     'Empty cell of color Lavender, row 1, column 1',
     'Empty cell of color Lavender, row 1, column 2',
