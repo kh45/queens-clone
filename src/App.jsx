@@ -80,10 +80,12 @@ const Square = ({
       }
       // Check for diagonal errors
       calculateDiagonals(row, column).forEach((square) => {
-        console.log('SHOW ME WHAT YOUR CALCULATING HERE:', square)
+        // console.log('SHOW ME WHAT YOUR CALCULATING HERE:', square)
+        console.log({rowsWithCrown, columnsWithCrown, row, column, square})
+        // console.log(`This is the diagonal: ${square.row}` + ` and this is row condition: ${rowsWithCrown.includes(square.row)} `)
         if (
-          rowsWithCrown.includes(square.row) &&
-          columnsWithCrown.includes(square.column)
+          rowsWithCrown.includes(square.row.toString()) &&
+          columnsWithCrown.includes(square.column.toString())
         ) {
           console.log('AM I JUMPING HERE?????')
           window.alert("DIAGONAL ERROR!");
@@ -213,15 +215,15 @@ function App() {
         style={{
           display: "grid",
           width: width,
-          gridTemplateColumns: "repeat(7, 1fr)",
-          gridTemplateRows: "repeat(7, 1fr)",
+          gridTemplateColumns: "repeat(11, 1fr)",
+          gridTemplateRows: "repeat(11, 1fr)",
           // columnGap: '0px',
           // gap: 0
           // rowGap: '0px'
         }}
       >
         {generateGrid(
-          secondNewOne,
+          hello,
           rowsWithCrown,
           columnsWithCrown,
           setRowsWithCrown,
