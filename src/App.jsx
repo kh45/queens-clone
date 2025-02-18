@@ -26,11 +26,11 @@ const Square = ({
   });
 
   const calculateDiagonals = (row, column) => {
-    const rowAbove = parseInt(row) - 1;
-    const rowBelow = parseInt(row) + 1;
+    const rowAbove = row - 1;
+    const rowBelow = row + 1;
 
-    const columnToTheLeft = parseInt(column) - 1;
-    const columnToTheRight = parseInt(column) + 1;
+    const columnToTheLeft = column - 1;
+    const columnToTheRight = column + 1;
 
     const NWDiagonal = { row: rowAbove, column: columnToTheLeft };
     const NEDiagonal = { row: rowAbove, column: columnToTheRight };
@@ -96,7 +96,7 @@ const Square = ({
       setRowsWithCrown([...rowsWithCrown, row]);
       setColumnsWithCrown([...columnsWithCrown, column]);
       setColorsWithCrown([...colorsWithCrown, color]);
-      setArrayOfCoordinates([...arrayOfCoordinates, {row: parseInt(row), column: parseInt(column)}])
+      setArrayOfCoordinates([...arrayOfCoordinates, {row, column}])
     }
 
     // There is already a Crown, so turn it off
@@ -156,8 +156,8 @@ const generateGrid = (
 ) => {
   return array.map((square, idx) => {
     const color = square.split("color ")[1].split(",")[0];
-    const row = square.split(", ")[1].split(" ")[1];
-    const column = square.split(", ")[2].split(" ")[1];
+    const row = parseInt(square.split(", ")[1].split(" ")[1]);
+    const column = parseInt(square.split(", ")[2].split(" ")[1]);
     // console.log('SHOW ME THE SQUARE:', square.split(", ")[1].split(" ")[1])
     // console.log('SHOW ME THE COLOR STRING:', color)
     // console.log('FDFAS', COLORS[color])
@@ -183,8 +183,8 @@ const generateGrid = (
 const getBoardConfig = (array) => {
   const colorArray = [];
   const lastString = array[array.length - 1].split(", ");
-  const rows = lastString[1].split(" ")[1];
-  const columns = lastString[2].split(" ")[1];
+  const rows = parseInt(lastString[1].split(" ")[1]);
+  const columns = parseInt(lastString[2].split(" ")[1]);
 
   array.map((square) => {
     const color = square.split("color")[1].split(",")[0];
@@ -214,8 +214,8 @@ function App() {
   // determines if solution has been reached
   useEffect(() => {
     if (
-      rowsWithCrown.length === parseInt(boardConfig.rows) &&
-      columnsWithCrown.length === parseInt(boardConfig.columns) &&
+      rowsWithCrown.length === boardConfig.rows &&
+      columnsWithCrown.length === boardConfig.columns &&
       colorsWithCrown.length === boardConfig.colorArray.length &&
       boardConfig.rows !== 0
     ) {
