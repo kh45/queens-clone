@@ -3,7 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import COLORS from "./colors";
-import hello, { secondNewOne } from "./mock";
+import hello, { secondNewOne, got3Minutes } from "./mock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faX } from "@fortawesome/free-solid-svg-icons";
 
@@ -54,6 +54,34 @@ const Square = ({
       });
     }
 
+    // There is already a Crown, so turn it off
+    if (
+      !displayStateOfSquare.isXShowing &&
+      displayStateOfSquare.isCrownShowing
+    ) {
+      setDisplayStateOfSquare({
+        isXShowing: false,
+        isCrownShowing: false,
+      });
+      const removingCrownFromRow = rowsWithCrown.filter(
+        (arrayRow) => arrayRow !== row
+      );
+      const removingCrownFromColumn = columnsWithCrown.filter(
+        (arrayColumn) => arrayColumn !== column
+      );
+      const removingCrownFromColors = colorsWithCrown.filter(
+        (arrayColor) => arrayColor !== color
+      );
+      const removingCrownFromDiagonals = arrayOfCoordinates.filter(
+        (coors) => coors.row !== row && coors.column !== column
+      );
+
+      setRowsWithCrown(removingCrownFromRow);
+      setColumnsWithCrown(removingCrownFromColumn);
+      setColorsWithCrown(removingCrownFromColors);
+      setArrayOfCoordinates(removingCrownFromDiagonals);
+    }
+
     // There is already an X so set a Crown
     if (
       displayStateOfSquare.isXShowing &&
@@ -94,30 +122,6 @@ const Square = ({
       setColumnsWithCrown([...columnsWithCrown, column]);
       setColorsWithCrown([...colorsWithCrown, color]);
       setArrayOfCoordinates([...arrayOfCoordinates, { row, column }]);
-    }
-
-    // There is already a Crown, so turn it off
-    if (
-      !displayStateOfSquare.isXShowing &&
-      displayStateOfSquare.isCrownShowing
-    ) {
-      setDisplayStateOfSquare({
-        isXShowing: false,
-        isCrownShowing: false,
-      });
-      const removingCrownFromRow = rowsWithCrown.filter(
-        (arrayRow) => arrayRow !== row
-      );
-      const removingCrownFromColumn = columnsWithCrown.filter(
-        (arrayColumn) => arrayColumn !== column
-      );
-      const removingCrownFromColors = colorsWithCrown.filter(
-        (arrayColor) => arrayColor !== color
-      );
-
-      setRowsWithCrown([removingCrownFromRow]);
-      setColumnsWithCrown([removingCrownFromColumn]);
-      setColorsWithCrown([removingCrownFromColors]);
     }
   };
 
@@ -215,7 +219,7 @@ function App() {
 
   useEffect(() => {
     // const boardConfig = getBoardConfig(hello);
-    const boardConfig = getBoardConfig(secondNewOne);
+    const boardConfig = getBoardConfig(got3Minutes);
     setBoardConfig(boardConfig);
   }, []);
 
@@ -231,7 +235,8 @@ function App() {
       >
         {generateGrid(
           // hello,
-          secondNewOne,
+          // secondNewOne,
+          got3Minutes,
           rowsWithCrown,
           columnsWithCrown,
           setRowsWithCrown,
@@ -252,6 +257,9 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
+        <button onClick={() => console.log(arrayOfCoordinates)}>
+          SHOW ME LIST
+        </button>
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
