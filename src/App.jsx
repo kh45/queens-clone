@@ -24,6 +24,7 @@ const Square = ({
     isXShowing: false,
     isCrownShowing: false,
   });
+  // const [diagonalErrorWasSet, setDiagonalErrorWasSet] = useState(false);
 
   const calculateDiagonals = (row, column) => {
     const rowAbove = row - 1;
@@ -87,36 +88,107 @@ const Square = ({
       displayStateOfSquare.isXShowing &&
       !displayStateOfSquare.isCrownShowing
     ) {
-      setDisplayStateOfSquare({
-        isXShowing: false,
-        isCrownShowing: true,
-      });
+      // setDisplayStateOfSquare({
+      //   isXShowing: false,
+      //   isCrownShowing: true,
+      // });
       if (rowsWithCrown.includes(row)) {
         window.alert("ROW ERROR!");
-        location.reload();
+        // location.reload();
+        setDisplayStateOfSquare({
+          isXShowing: false,
+          isCrownShowing: false,
+        });
         return;
       }
       if (columnsWithCrown.includes(column)) {
         window.alert("COLUMN ERROR!");
-        location.reload();
+        setDisplayStateOfSquare({
+          isXShowing: false,
+          isCrownShowing: false,
+        });
+        // location.reload();
         return;
       }
       if (colorsWithCrown.includes(color)) {
         window.alert("COLOR ERROR!");
-        location.reload();
+        setDisplayStateOfSquare({
+          isXShowing: false,
+          isCrownShowing: false,
+        });
+        // location.reload();
         return;
       }
+
+      console.log("show me these:", calculateDiagonals(row, column)[0]);
+      console.log("show me these:", calculateDiagonals(row, column)[1]);
+      console.log("show me these:", calculateDiagonals(row, column)[2]);
+      console.log("show me these:", calculateDiagonals(row, column)[3]);
+      console.log("show me total:", arrayOfCoordinates);
+
+      console.log('hello:', arrayOfCoordinates.some(
+        (coor) =>
+          coor.row === calculateDiagonals(row, column)[0].row &&
+          coor.column === calculateDiagonals(row, column).column
+      ) )
+
+      console.log('what is this incorrect condition:', calculateDiagonals(row, column).column)
+
+       
+
+      if (
+        arrayOfCoordinates.some(
+          (coor) =>
+            coor.row === calculateDiagonals(row, column)[0].row &&
+            coor.column === calculateDiagonals(row, column)[0].column
+        ) ||
+        arrayOfCoordinates.some(
+          (coor) =>
+            coor.row === calculateDiagonals(row, column)[1].row &&
+            coor.column === calculateDiagonals(row, column)[1].column
+        ) ||
+        arrayOfCoordinates.some(
+          (coor) =>
+            coor.row === calculateDiagonals(row, column)[2].row &&
+            coor.column === calculateDiagonals(row, column)[2].column
+        ) ||
+        arrayOfCoordinates.some(
+          (coor) =>
+            coor.row === calculateDiagonals(row, column)[3].row &&
+            coor.column === calculateDiagonals(row, column)[3].column
+        )
+      ) {
+        window.alert("DIAGONAL ERROR!");
+        setDisplayStateOfSquare({
+          isXShowing: false,
+          isCrownShowing: false,
+        });
+        // setDiagonalErrorWasSet(true);
+        // location.reload();
+        return;
+      }
+
       // Check for diagonal errors
-      calculateDiagonals(row, column).forEach((square) => {
-        if (
-          arrayOfCoordinates.some(
-            (coor) => coor.row === square.row && coor.column === square.column
-          )
-        ) {
-          window.alert("DIAGONAL ERROR!");
-          location.reload();
-          return;
-        }
+      // calculateDiagonals(row, column).forEach((square) => {
+      //   if (
+      //     arrayOfCoordinates.some(
+      //       (coor) => coor.row === square.row && coor.column === square.column
+      //     )
+      //   ) {
+      //     window.alert("DIAGONAL ERROR!");
+      //     setDiagonalErrorWasSet(true);
+      //     // location.reload();
+      //     return;
+      //   }
+      // });
+      // console.log("SET DIAG ERROR:", diagonalErrorWasSet);
+      // if (diagonalErrorWasSet) {
+      //   setDiagonalErrorWasSet(false);
+      //   return;
+      // }
+      setDisplayStateOfSquare({
+        isXShowing: false,
+        isCrownShowing: true,
       });
       setRowsWithCrown([...rowsWithCrown, row]);
       setColumnsWithCrown([...columnsWithCrown, column]);
