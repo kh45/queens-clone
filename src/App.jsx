@@ -3,7 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import COLORS from "./colors";
-import hello, { secondNewOne, got3Minutes } from "./mock";
+import hello, { secondNewOne, got3Minutes, mamoudou } from "./mock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faX } from "@fortawesome/free-solid-svg-icons";
 
@@ -291,7 +291,7 @@ function App() {
 
   useEffect(() => {
     // const boardConfig = getBoardConfig(hello);
-    const boardConfig = getBoardConfig(got3Minutes);
+    const boardConfig = getBoardConfig(mamoudou);
     setBoardConfig(boardConfig);
   }, []);
 
@@ -308,7 +308,8 @@ function App() {
         {generateGrid(
           // hello,
           // secondNewOne,
-          got3Minutes,
+          // got3Minutes,
+          mamoudou,
           rowsWithCrown,
           columnsWithCrown,
           setRowsWithCrown,
