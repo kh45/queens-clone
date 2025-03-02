@@ -3,7 +3,15 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import COLORS from "./colors";
-import hello, { secondNewOne, got3Minutes, mamoudou } from "./mock";
+import hello, {
+  secondNewOne,
+  got3Minutes,
+  mamoudou,
+  marmoush,
+  sad,
+  ramadandayone,
+  secondDayOfRamadan,
+} from "./mock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faX } from "@fortawesome/free-solid-svg-icons";
 
@@ -19,12 +27,24 @@ const Square = ({
   setColorsWithCrown,
   arrayOfCoordinates,
   setArrayOfCoordinates,
+  coloredChessBoard,
 }) => {
   const [displayStateOfSquare, setDisplayStateOfSquare] = useState({
     isXShowing: false,
     isCrownShowing: false,
   });
   // const [diagonalErrorWasSet, setDiagonalErrorWasSet] = useState(false);
+
+  const colorToLeft = coloredChessBoard?.[row]?.[column - 1];
+  const colorToRight = coloredChessBoard?.[row]?.[column + 1];
+  const colorAbove = coloredChessBoard?.[row - 1]?.[column];
+  const colorBelow = coloredChessBoard?.[row + 1]?.[column];
+  const isDifferentColor = (colorOfSquare, neighbor) => {
+    if (!neighbor) {
+      return false;
+    }
+    return colorOfSquare !== neighbor;
+  };
 
   const calculateDiagonals = (row, column) => {
     const rowAbove = row - 1;
@@ -120,21 +140,25 @@ const Square = ({
         return;
       }
 
-      console.log("show me these:", calculateDiagonals(row, column)[0]);
-      console.log("show me these:", calculateDiagonals(row, column)[1]);
-      console.log("show me these:", calculateDiagonals(row, column)[2]);
-      console.log("show me these:", calculateDiagonals(row, column)[3]);
-      console.log("show me total:", arrayOfCoordinates);
+      // console.log("show me these:", calculateDiagonals(row, column)[0]);
+      // console.log("show me these:", calculateDiagonals(row, column)[1]);
+      // console.log("show me these:", calculateDiagonals(row, column)[2]);
+      // console.log("show me these:", calculateDiagonals(row, column)[3]);
+      // console.log("show me total:", arrayOfCoordinates);
 
-      console.log('hello:', arrayOfCoordinates.some(
-        (coor) =>
-          coor.row === calculateDiagonals(row, column)[0].row &&
-          coor.column === calculateDiagonals(row, column).column
-      ) )
+      // console.log(
+      //   "hello:",
+      //   arrayOfCoordinates.some(
+      //     (coor) =>
+      //       coor.row === calculateDiagonals(row, column)[0].row &&
+      //       coor.column === calculateDiagonals(row, column).column
+      //   )
+      // );
 
-      console.log('what is this incorrect condition:', calculateDiagonals(row, column).column)
-
-       
+      // console.log(
+      //   "what is this incorrect condition:",
+      //   calculateDiagonals(row, column).column
+      // );
 
       if (
         arrayOfCoordinates.some(
@@ -198,20 +222,27 @@ const Square = ({
   };
 
   return (
-    <div
-      onClick={handleClick}
-      style={{
-        height: "35px",
-        width: "35px",
-        backgroundColor: COLORS[color],
-        border: "2px solid black",
-      }}
-    >
-      {displayStateOfSquare.isXShowing && <FontAwesomeIcon icon={faX} />}
-      {displayStateOfSquare.isCrownShowing && (
-        <FontAwesomeIcon icon={faCrown} />
-      )}
-    </div>
+    <>
+      <div
+        onClick={handleClick}
+        style={{
+          height: "35px",
+          width: "35px",
+          position: 'relative',
+          backgroundColor: COLORS[color],
+          border: "0.5px solid black",
+        }}
+      >
+        {displayStateOfSquare.isXShowing && <FontAwesomeIcon icon={faX} />}
+        {displayStateOfSquare.isCrownShowing && (
+          <FontAwesomeIcon icon={faCrown} />
+        )}
+        {isDifferentColor(color, colorToRight) && <div style={{borderRight: '1px solid black', height: '35px', position: 'absolute', right: 0, top: 0}}></div>}
+        {isDifferentColor(color, colorAbove) && <div style={{borderTop: '1px solid black', width: '35px', position: 'absolute', top: 0}}></div>}
+        {isDifferentColor(color, colorBelow) && <div style={{borderBottom: '1px solid black', width: '35px', position: 'absolute', bottom: 0}}></div>}
+        {isDifferentColor(color, colorToLeft) && <div style={{borderLeft: '1px solid black', height: '35px', position: 'absolute', left: 0, top: 0}}></div>}
+      </div>
+    </>
   );
 };
 
@@ -224,7 +255,8 @@ const generateGrid = (
   colorsWithCrown,
   setColorsWithCrown,
   arrayOfCoordinates,
-  setArrayOfCoordinates
+  setArrayOfCoordinates,
+  coloredChessBoard
 ) => {
   return array.map((square, idx) => {
     const color = square.split("color ")[1].split(",")[0];
@@ -244,9 +276,28 @@ const generateGrid = (
         key={idx}
         row={row}
         column={column}
+        coloredChessBoard={coloredChessBoard}
       />
     );
   });
+};
+
+const futari = (array) => {
+  const updatedBoardWithRowsAndColumns = {};
+
+  // console.log('show me the array:', array)
+
+  array.forEach((square) => {
+    const row = square.split(", ")[1].split(" ")[1];
+    const column = square.split(", ")[2].split(" ")[1];
+    const color = square.split("color ")[1].split(",")[0];
+    updatedBoardWithRowsAndColumns[row] = {
+      ...updatedBoardWithRowsAndColumns[row],
+      [column]: color,
+    };
+  });
+
+  return updatedBoardWithRowsAndColumns;
 };
 
 const getBoardConfig = (array) => {
@@ -255,7 +306,21 @@ const getBoardConfig = (array) => {
   const rows = parseInt(lastString[1].split(" ")[1]);
   const columns = parseInt(lastString[2].split(" ")[1]);
 
-  array.map((square) => {
+  // const updatedBoardWithRowsAndColumns = {}
+
+  // // console.log('show me the array:', array)
+
+  // array.forEach((square) => {
+  //   const row = square.split(", ")[1].split(" ")[1]
+  //   const column = square.split(", ")[2].split(" ")[1]
+  //   const color = square.split("color")[1].split(",")[0]
+  //   updatedBoardWithRowsAndColumns[row] = {
+  //     ...updatedBoardWithRowsAndColumns[row],
+  //     [column]: color
+  //   }
+  // })
+
+  array.forEach((square) => {
     const color = square.split("color")[1].split(",")[0];
     if (!colorArray.includes(color)) {
       colorArray.push(color);
@@ -272,6 +337,7 @@ function App() {
     columns: 0,
     colorArray: [],
   });
+  const [coloredChessBoard, setColoredChessBoard] = useState({});
   const [rowsWithCrown, setRowsWithCrown] = useState([]);
   const [columnsWithCrown, setColumnsWithCrown] = useState([]);
   const [colorsWithCrown, setColorsWithCrown] = useState([]);
@@ -291,9 +357,12 @@ function App() {
 
   useEffect(() => {
     // const boardConfig = getBoardConfig(hello);
-    const boardConfig = getBoardConfig(mamoudou);
+    const boardConfig = getBoardConfig(secondDayOfRamadan);
+    setColoredChessBoard(futari(secondDayOfRamadan));
     setBoardConfig(boardConfig);
   }, []);
+
+  // console.log('SHOW ME THE COLORED CHESS BOARD:', coloredChessBoard)
 
   return (
     <>
@@ -309,7 +378,11 @@ function App() {
           // hello,
           // secondNewOne,
           // got3Minutes,
-          mamoudou,
+          // mamoudou,
+          // marmoush,
+          // sad,
+          // ramadandayone,
+          secondDayOfRamadan,
           rowsWithCrown,
           columnsWithCrown,
           setRowsWithCrown,
@@ -317,7 +390,8 @@ function App() {
           colorsWithCrown,
           setColorsWithCrown,
           arrayOfCoordinates,
-          setArrayOfCoordinates
+          setArrayOfCoordinates,
+          coloredChessBoard
         )}
       </div>
       <div>
@@ -348,3 +422,24 @@ function App() {
 }
 
 export default App;
+
+const test = {
+  rows: {
+    1: {
+      1: "red",
+      2: "lavender",
+      3: "green",
+    },
+    2: {
+      1: "purple",
+      2: "red",
+    },
+  },
+};
+
+// Square(row, column)
+
+// TOP: same column one row above
+// BOTTOM: same column one row below
+// LEFT: same row one column less
+// RIGHT: same row one column more
