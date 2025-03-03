@@ -228,7 +228,7 @@ const Square = ({
         style={{
           height: "35px",
           width: "35px",
-          position: 'relative',
+          position: "relative",
           backgroundColor: COLORS[color],
           border: "0.5px solid black",
         }}
@@ -237,10 +237,48 @@ const Square = ({
         {displayStateOfSquare.isCrownShowing && (
           <FontAwesomeIcon icon={faCrown} />
         )}
-        {isDifferentColor(color, colorToRight) && <div style={{borderRight: '1px solid black', height: '35px', position: 'absolute', right: 0, top: 0}}></div>}
-        {isDifferentColor(color, colorAbove) && <div style={{borderTop: '1px solid black', width: '35px', position: 'absolute', top: 0}}></div>}
-        {isDifferentColor(color, colorBelow) && <div style={{borderBottom: '1px solid black', width: '35px', position: 'absolute', bottom: 0}}></div>}
-        {isDifferentColor(color, colorToLeft) && <div style={{borderLeft: '1px solid black', height: '35px', position: 'absolute', left: 0, top: 0}}></div>}
+        {isDifferentColor(color, colorToRight) && (
+          <div
+            style={{
+              borderRight: "1px solid black",
+              height: "35px",
+              position: "absolute",
+              right: 0,
+              top: 0,
+            }}
+          ></div>
+        )}
+        {isDifferentColor(color, colorAbove) && (
+          <div
+            style={{
+              borderTop: "1px solid black",
+              width: "35px",
+              position: "absolute",
+              top: 0,
+            }}
+          ></div>
+        )}
+        {isDifferentColor(color, colorBelow) && (
+          <div
+            style={{
+              borderBottom: "1px solid black",
+              width: "35px",
+              position: "absolute",
+              bottom: 0,
+            }}
+          ></div>
+        )}
+        {isDifferentColor(color, colorToLeft) && (
+          <div
+            style={{
+              borderLeft: "1px solid black",
+              height: "35px",
+              position: "absolute",
+              left: 0,
+              top: 0,
+            }}
+          ></div>
+        )}
       </div>
     </>
   );
