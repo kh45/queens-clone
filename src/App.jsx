@@ -11,6 +11,7 @@ import hello, {
   sad,
   ramadandayone,
   secondDayOfRamadan,
+  squirtlespawn
 } from "./mock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faX } from "@fortawesome/free-solid-svg-icons";
@@ -395,8 +396,8 @@ function App() {
 
   useEffect(() => {
     // const boardConfig = getBoardConfig(hello);
-    const boardConfig = getBoardConfig(secondDayOfRamadan);
-    setColoredChessBoard(futari(secondDayOfRamadan));
+    const boardConfig = getBoardConfig(squirtlespawn);
+    setColoredChessBoard(futari(squirtlespawn));
     setBoardConfig(boardConfig);
   }, []);
 
@@ -420,7 +421,8 @@ function App() {
           // marmoush,
           // sad,
           // ramadandayone,
-          secondDayOfRamadan,
+          // secondDayOfRamadan,
+          squirtlespawn,
           rowsWithCrown,
           columnsWithCrown,
           setRowsWithCrown,
