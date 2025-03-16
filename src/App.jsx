@@ -11,7 +11,11 @@ import hello, {
   sad,
   ramadandayone,
   secondDayOfRamadan,
-  squirtlespawn
+  squirtlespawn,
+  holyGrail,
+  luBdayNight,
+  piDay,
+  piSymbol
 } from "./mock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faX } from "@fortawesome/free-solid-svg-icons";
@@ -396,8 +400,8 @@ function App() {
 
   useEffect(() => {
     // const boardConfig = getBoardConfig(hello);
-    const boardConfig = getBoardConfig(squirtlespawn);
-    setColoredChessBoard(futari(squirtlespawn));
+    const boardConfig = getBoardConfig(piSymbol);
+    setColoredChessBoard(futari(piSymbol));
     setBoardConfig(boardConfig);
   }, []);
 
@@ -422,7 +426,11 @@ function App() {
           // sad,
           // ramadandayone,
           // secondDayOfRamadan,
-          squirtlespawn,
+          // squirtlespawn,
+          // holyGrail,
+          // luBdayNight,
+          // piDay,
+          piSymbol,
           rowsWithCrown,
           columnsWithCrown,
           setRowsWithCrown,
