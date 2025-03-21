@@ -16,7 +16,10 @@ import hello, {
   luBdayNight,
   piDay,
   piSymbol,
-  easyOneIShouldHaveGot
+  easyOneIShouldHaveGot,
+  miamiOpen,
+  daDaySquirtleWasBorn,
+  firstDayInPMac
 } from "./mock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faX } from "@fortawesome/free-solid-svg-icons";
@@ -401,8 +404,8 @@ function App() {
 
   useEffect(() => {
     // const boardConfig = getBoardConfig(hello);
-    const boardConfig = getBoardConfig(easyOneIShouldHaveGot);
-    setColoredChessBoard(futari(easyOneIShouldHaveGot));
+    const boardConfig = getBoardConfig(firstDayInPMac);
+    setColoredChessBoard(futari(firstDayInPMac));
     setBoardConfig(boardConfig);
   }, []);
 
@@ -432,7 +435,10 @@ function App() {
           // luBdayNight,
           // piDay,
           // piSymbol,
-          easyOneIShouldHaveGot,
+          // easyOneIShouldHaveGot,
+          // miamiOpen,
+          // daDaySquirtleWasBorn,
+          firstDayInPMac,
           rowsWithCrown,
           columnsWithCrown,
           setRowsWithCrown,
