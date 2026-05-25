@@ -19,7 +19,8 @@ import hello, {
   easyOneIShouldHaveGot,
   miamiOpen,
   daDaySquirtleWasBorn,
-  firstDayInPMac
+  firstDayInPMac,
+  resurrected
 } from "./mock";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faX } from "@fortawesome/free-solid-svg-icons";
@@ -404,8 +405,8 @@ function App() {
 
   useEffect(() => {
     // const boardConfig = getBoardConfig(hello);
-    const boardConfig = getBoardConfig(firstDayInPMac);
-    setColoredChessBoard(futari(firstDayInPMac));
+    const boardConfig = getBoardConfig(resurrected);
+    setColoredChessBoard(futari(resurrected));
     setBoardConfig(boardConfig);
   }, []);
 
@@ -438,7 +439,7 @@ function App() {
           // easyOneIShouldHaveGot,
           // miamiOpen,
           // daDaySquirtleWasBorn,
-          firstDayInPMac,
+          resurrected,
           rowsWithCrown,
           columnsWithCrown,
           setRowsWithCrown,
